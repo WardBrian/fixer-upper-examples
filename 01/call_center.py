@@ -1,28 +1,27 @@
-# existing API
+# type: ignore
+from api import *
 
-def get_status() -> Checkpoint:
-    ...
+# # # Existing API
+# class Checkpoint(): ...
 
-def rollback(checkpoint: Checkpoint) -> None:
-    ...
+# class Record(): ...
 
-def create_record(name) -> tuple[Record, bool]:
-    ...
+# def get_status() -> Checkpoint: ...
 
-def link_record(record, other) -> bool:
-    ...
+# def get_record(name: Any) -> Optional[Record]: ...
 
-def unlink_all(record) -> bool:
-    ...
+# def rollback(checkpoint: Checkpoint) -> None: ...
 
-def get(name) -> Optional[Record]:
-    ...
+# def create_record(name: str) -> Tuple[Record, bool]: ...
 
-def decrement_waiting_time(record) -> bool:
-    ...
+# def link_record(record: Record, other: Record) -> bool: ...
 
-def reset_waiting_time(record) -> bool:
-    ...
+# def unlink_all(record: Record) -> bool: ...
+
+# def decrement_waiting_time(record: Record) -> bool: ...
+
+# def reset_waiting_time(record: Record) -> bool: ...
+
 
 # existing usages
 
@@ -30,7 +29,7 @@ def initialize_caller(name, partner):
     """Create a new caller based on their NAME and start them waiting for PARTNER."""
     checkpoint = get_status()
     client, failed1 = create_record(name)
-    failed2 = link_record(client, get(partner))
+    failed2 = link_record(client, get_record(partner))
     failed3 = decrement_waiting_time(client)
 
     if any([failed1, failed2, failed3]):
@@ -43,7 +42,7 @@ def swap_partner(client, partner):
     """Given a CLIENT record, move them to PARTNER's queue and reset their waiting time."""
     checkpoint = get_status()
     failed1 = unlink_all(client)
-    failed2 = link_record(client, get(partner))
+    failed2 = link_record(client, get_record(partner))
     failed3 = reset_waiting_time(client)
 
     if any([failed1, failed2, failed2]):

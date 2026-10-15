@@ -3,9 +3,11 @@
 
 # ------------------------------------------------------------
 
+from api import *
+
 class Transaction:
     def __init__(self):
-        self.failed = false
+        self.failed = False
         self.checkpoint = get_status()
 
     def commit(self):
@@ -32,30 +34,32 @@ class Transaction:
 
     # these two functions make this class a "Context Manager"
     def __enter__(self):
-        self.failed = false
+        self.failed = False
         self.checkpoint = get_status()
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self, exc_type, exec_val, exc_tb):
         if exec_val is not None:
-            self.failed = true
+            self.failed = True
         self.commit()
         return True
+
 
 def initialize_caller(name, partner):
     """Create a new caller based on their NAME and start them waiting for PARTNER."""
     with Transaction() as t:
         client = t.create_record(name)
-        t.link_record(client, get(partner))
+        t.link_record(client, get_record(partner))
         t.decrement_waiting_time(client)
-    return get(name)
+    return get_record(name)
+
 
 def swap_partner(client, partner):
     """Given a CLIENT record, move them to PARTNER's queue and reset their waiting time."""
     with Transaction() as t:
         t.unlink_all(client)
-        t.link_record(record, get(partner))
-        t.reset_waiting_time(record)
+        t.link_record(client, get_record(partner))
+        t.reset_waiting_time(client)
 
 
 # note that once this is used everywhere, it creates a cleaner location for more changes
