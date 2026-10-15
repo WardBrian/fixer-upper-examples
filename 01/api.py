@@ -24,7 +24,7 @@ def create_record(name: str) -> Tuple[Record, bool]:
     ...
 
 
-def link_record(record: Record, other: Record) -> bool:
+def link_record(record: Record, other: Optional[Record]) -> bool:
     ...
 
 
