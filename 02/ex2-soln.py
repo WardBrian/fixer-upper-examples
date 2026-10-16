@@ -39,24 +39,24 @@ class Stats():
         self.max = data[0]
         self.min = data[0]
         self.total = 0
+        self.max_count = 0
+        self.mode = data[0]
         counts = {}
         for item in data:
+            self.total += item
             if item not in counts:
                 counts[item] = 0
-            counts[item] += 1
-            if item > self.max:
-                self.max = item
-            if item < self.min:
-                self.min = item
-            self.total += item
-        self.mean = self.total / self.len
+                # if it's in counts, we've seen it before, and it can't be a new max/min
+                if item > self.max:
+                    self.max = item
+                elif item < self.min:
+                    self.min = item
 
-        self.max_count = 0
-        self.the_mode = data[0]
-        for (k, v) in counts.items():
-            if v > self.max_count:
-                self.max_count = v
-                self.the_mode = k
+            counts[item] += 1
+            if counts[item] > self.max_count:
+                self.max_count = counts[item]
+                self.mode = item
+        self.mean = self.total / self.len
 
 
     def mean_difference(self):
