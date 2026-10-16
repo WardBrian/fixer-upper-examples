@@ -1,10 +1,7 @@
 # TASK:
-# Add support for removing outliers from the data set.
-# You can choose how to define outliers, but your results should be
-# computed efficiently and should apply to all the summarization modes.
-#
-# Requirement:
-# Do not change the interface.
+# The following routine has grown unruly over time. We'd like to
+# both make it more interpretable and add support for an additional
+# mode, "stdev", which computes standard deviations
 
 def summarize(
     data: list[float] | list[list[float]],
