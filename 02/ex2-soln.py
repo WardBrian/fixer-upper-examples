@@ -17,7 +17,7 @@ from math import sqrt
 # own separate functions.
 
 
-T_supported_modes = Literal['sum'] | Literal['mean'] | Literal['median'] | Literal['mode'] | Literal['variance'] | Literal['fit'] | Literal['range']
+T_supported_modes = Literal['sum', 'mean', 'median', 'mode', 'variance', 'fit', 'range']
 
 
 class Stats():
