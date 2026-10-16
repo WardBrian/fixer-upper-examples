@@ -1,14 +1,14 @@
-from typing import Literal, cast
-
-
-# TASK: Add support for removing outliers from the data set.
+# TASK:
+# Add support for removing outliers from the data set.
 # You can choose how to define outliers, but your results should be
 # computed efficiently and should apply to all the summarization modes.
+#
+# Requirement:
 # Do not change the interface.
 
 def summarize(
     data: list[float] | list[list[float]],
-    mode: Literal['sum'] | Literal['mean'] | Literal['median'] | Literal['mode'] | Literal['variance'] | Literal['fit'] | Literal['range'],
+    mode,
     is_sample: bool = True,
 ) -> float | tuple[float, float]:
     if mode == 'fit':
@@ -16,8 +16,6 @@ def summarize(
         y = [point[1] for point in data]
     else:
         x = data
-
-    x = cast(list[float], x)
 
     if mode == 'mode':
         counts = {}
